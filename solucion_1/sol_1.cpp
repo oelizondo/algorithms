@@ -49,6 +49,11 @@ bool solucionUno() {
 
 
 int main() {
-  cout << solucionUno() << endl;
+  if (solucionUno()) {
+    cout << "Encontrado" << endl;
+  } else {
+    cout << "No encontrado" << endl;
+  }
+  
   return 0;
 }

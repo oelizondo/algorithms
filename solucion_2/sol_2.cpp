@@ -5,13 +5,21 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
+template <class T, class t>
+bool busqueda_binaria(T first, T last, t iDato)
+{
+    first = std::lower_bound(first, last, iDato);
+    return (!(first == last) && !(iDato < *first));
+}
+
 bool buscarMatricula(int iDato, vector<int>& iMatriculas) {
 
-  for (int i = 0; i < iMatriculas.size(); i++)
-    if(iDato == iMatriculas[i]) return true;
+  sort(iMatriculas.begin(), iMatriculas.end());
+  if (busqueda_binaria(iMatriculas.begin(), iMatriculas.end(), iDato)) return true;
 
   return false;
 }
@@ -30,7 +38,7 @@ void leerArchivo(vector<int>& iMatriculas) {
   }
   
   archEnt.close();
-
+  
 }
 
 bool solucionDos() {
@@ -48,6 +56,10 @@ bool solucionDos() {
 
 
 int main() {
-  cout << solucionDos() << endl;
+  if (solucionDos()) {
+    cout << "Encontrado" << endl;
+  } else {
+    cout << "No encontrado" << endl;
+  }
   return 0;
 }

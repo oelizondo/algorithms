@@ -1,6 +1,6 @@
-//Oscar Elizondo
-//22.01.16
-//Matrículas problema 1
+// Oscar Elizondo
+// 22.01.16
+// Matrículas problema 1
 
 #include <iostream>
 #include <fstream>
@@ -9,51 +9,58 @@
 
 using namespace std;
 
-int formarLlave(int iDato) {
-  return iDato % 1000;
-}
-
-bool buscarMatricula(int iDato, array<list<int>, 1000>& iMatriculas) {
-
-  int iLlave = formarLlave(iDato);
-
-  for (int i = 0; i < iMatriculas.size(); i++)
-    if(iDato == iMatriculas[iLlave].front()) return true;
-
+bool buscarMatricula(int iDato, array<list<int>, 1000> iMatriculas) {
+  
+  int iLlave = iDato % 1000;
+  
+  while(iDato != iMatriculas[iLlave].front()) {
+    iMatriculas[iLlave].pop_front();
+    if (iDato == iMatriculas[iLlave].front())
+      return true;
+  }
   return false;
 }
 
-void leerArchivo(array<list<int>, 1000>& iMatriculas) {
+void leerArchivo(array<list<int>, 1000> &iMatriculas) {
   
   int iDato;
   ifstream archEnt;
   
-  
-  archEnt.open("matriculas_ejemplo.txt");
+  archEnt.open("matriculas.txt");
   
   while(!archEnt.eof()) {
     archEnt >> iDato;
-    int iLlave = formarLlave(iDato);
+    int iLlave = iDato % 1000;
     iMatriculas[iLlave].push_back(iDato);
   }
   
   archEnt.close();
-
+  
 }
 
 bool solucionTres() {
   int iDato;
   array<list<int>, 1000> iMatriculas;
-
+  
   cout << "Dato a buscar" << endl;
   cin >> iDato;
   
-  leerArchivo(iMatriculas);
-  return buscarMatricula(iDato, iMatriculas);
+  if (iDato % 1000 < 100) {
+    cout << "No es una matricula valida" << endl;
+  }
+  else {
+    leerArchivo(iMatriculas);
+    return buscarMatricula(iDato, iMatriculas);
+  }
+  return false;
 }
 
 
 int main() {
-  cout << solucionTres() << endl;
+  if (solucionUno()) {
+    cout << "Encontrado" << endl;
+  } else {
+    cout << "No encontrado" << endl;
+  }
   return 0;
 }
